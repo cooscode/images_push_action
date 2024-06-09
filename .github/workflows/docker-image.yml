@@ -1,0 +1,37 @@
+name: Image Pusher
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  ALIYUN_REGISTRY: "${{ secrets.ALIYUN_REGISTRY }}"
+  ALIYUN_NAME_SPACE: "${{ secrets.ALIYUN_NAME_SPACE }}"
+  ALIYUN_REGISTRY_USERNAME: "${{ secrets.ALIYUN_REGISTRY_USERNAME }}"
+  ALIYUN_REGISTRY_PASSWORD: "${{ secrets.ALIYUN_REGISTRY_PASSWORD }}"
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Docker Setup Buildx
+      uses: docker/setup-buildx-action@v3.3.0
+    
+    - name: Check out code
+      uses: actions/checkout@v4
+
+    - name: Pull and Push images to Aliyun
+      run: |
+        docker login -u $ALIYUN_REGISTRY_USERNAME -p $ALIYUN_REGISTRY_PASSWORD ALIYUN_REGISTRY
+        for line in $(cat images.txt); do
+          docker pull $line
+          new_image_tag=${line//\//-}
+          new_image="$ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/$image_name_tag"
+          echo "docker push $new_image"
+          docker push $new_image
+        done
