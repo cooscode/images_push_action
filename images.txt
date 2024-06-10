@@ -1,2 +1,15 @@
+# systems
 alpine:latest
 ubuntu:latest
+centos:latest
+
+# languages
+python:latest
+mysql:latest
+node:latest
+gcc:latest
+
+# tools
+postgres:latest
+nginx:latest
+rabbitmq:latest
