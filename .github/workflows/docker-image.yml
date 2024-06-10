@@ -24,7 +24,7 @@ jobs:
       - name: Pull and Push images to Aliyun
         run: |
           docker login -u $ALIYUN_REGISTRY_USERNAME -p $ALIYUN_REGISTRY_PASSWORD $ALIYUN_REGISTRY
-          for image in $(cat images.txt); do
+          for image in $(sed '/^ *#/d' images.txt); do
             docker pull $image
             image_name_tag="${image//\//-}"
             new_image="$ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/$image_name_tag"
