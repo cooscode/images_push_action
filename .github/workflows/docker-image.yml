@@ -1,8 +1,8 @@
 name: Image Pusher
 
-on:
-  schedule:
-    - cron: "0 1 * * *"
+# on:
+#   schedule:
+#     - cron: "0 1 * * *"
 
 env:
   ALIYUN_REGISTRY: "${{ secrets.ALIYUN_REGISTRY }}"
